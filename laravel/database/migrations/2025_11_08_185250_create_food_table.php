@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('food', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->decimal('serving_unit')->default(100);
+            $table->decimal('calories');
+            $table->decimal('protein');
+            $table->decimal('carbs');
+            $table->decimal('fat');
             $table->timestamps();
+
         });
     }
 
@@ -22,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('food');
+        Schema::dropIfExists('foods');
     }
 };
