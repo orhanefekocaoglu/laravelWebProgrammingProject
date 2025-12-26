@@ -6,20 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
+        // Sadece food tablosunu oluşturuyoruz
         Schema::create('food', function (Blueprint $table) {
             $table->id();
+            $table->string('name');   // Yemek adı (Elma, Tavuk vb.)
+            $table->string('type');   // Türü (Meyve, Protein vb.)
+            $table->string('unit');   // Birimi (Gram, Adet vb.)
+            $table->integer('calor'); // Kalorisi
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('food');

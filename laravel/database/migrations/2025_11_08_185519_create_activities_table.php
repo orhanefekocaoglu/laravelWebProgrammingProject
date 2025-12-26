@@ -6,20 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
+
+            // Foreign keys - Müşteri ve Egzersiz tablolarına bağlar
+            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('exercise_id')->constrained()->onDelete('cascade');
+
+            // Attributes
+            $table->integer('repetition'); // Tekrar sayısı
+            $table->integer('calor');      // Yakılan kalori
+            $table->boolean('like')->default(false); // Sevdi mi?
+            $table->integer('duration');   // Süre (dakika/saniye)
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('activities');

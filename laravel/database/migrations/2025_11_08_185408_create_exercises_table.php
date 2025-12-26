@@ -6,20 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('exercises', function (Blueprint $table) {
             $table->id();
+            $table->string('name');   // Egzersiz adı (Koşu, Yüzme vb.)
+            $table->string('type');   // Egzersiz türü (Kardiyo, Güç vb.)
+            $table->string('unit');   // Birim (Dakika, Tekrar vb.)
+            $table->integer('calor'); // Yakılan kalori
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('exercises');
