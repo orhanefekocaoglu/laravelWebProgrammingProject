@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Customer;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,8 +16,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // 1000 tane rastgele müşteri oluşturur
+        Customer::factory(1000)->create();
 
+        // Giriş yapabilmen için sabit bir test kullanıcısı oluşturur
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

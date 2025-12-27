@@ -2,63 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Meal;
 use Illuminate\Http\Request;
 
-class MealController
+class MealController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        // Kayıtlı tüm öğünleri listele
+        return dd(Meal::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
-    }
+        // Test verisi oluşturma: 1 nolu müşteri için öğün kayıtları
+        Meal::create([
+            "customer_id" => 1,
+            "food_id" => 1,
+            "mealtime" => "Breakfast",
+            "like" => true
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        Meal::create([
+            "customer_id" => 1,
+            "food_id" => 2,
+            "mealtime" => "Dinner",
+            "like" => false
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return "Öğün kayıtları başarıyla oluşturuldu!";
     }
 }
