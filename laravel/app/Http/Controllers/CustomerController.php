@@ -7,47 +7,37 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    // 1. Müşterileri Listeleme
     public function index()
     {
-        // 1. Önce ID'si 1 olan müşteriyi bulup ismini güncelleme testi
-        $firstCustomer = Customer::find(1);
-        if ($firstCustomer) {
-            $firstCustomer->update([
-                "name" => "John"
-            ]);
-        }
-
-        // 2. Tüm müşterileri çek ve ekrana dök (Hata ayıklama için)
-        return dd(Customer::all());
+        $customers = Customer::all();
+        return view('customers.index', compact('customers'));
     }
 
+    // 2. SADECE FORMU GÖSTERME (Form sayfasını açar)
     public function create()
     {
-        // Test amaçlı manuel müşteri oluşturma
-        Customer::create([
-            "name" => "Serdar",
-            "surname" => "Balkı",
-            "birthYear" => 2004,
-            "gender" => "Male",
-        ]);
-
-        Customer::create([
-            "name" => "Jane",
-            "surname" => "Doe",
-            "birthYear" => 1999,
-            "gender" => "Female",
-        ]);
-
-        return "Müşteriler başarıyla oluşturuldu!";
+        return view('customers.create');
     }
+
+    // 3. FORMDAN GELENİ KAYDETME (Butona basınca çalışır)
+public function store(Request $request)
+{
+    // 1. Veriyi kaydet
+    \App\Models\Customer::create([
+        'name'      => $request->name,
+        'surname'   => $request->surname,
+        'birthYear' => (int)$request->birthYear, // Sayı olduğundan emin olalım
+        'gender'    => $request->gender,
+    ]);
+
+    // 2. Doğrudan listeye gönder
+    return redirect()->route('customers.index');
+}
 
     public function edit(Customer $customer)
     {
-        // Route üzerinden gelen müşterinin soyadını güncelleme testi
-        $customer->update([
-            "surname" => "abc"
-        ]);
-
-        return dd(Customer::all());
+        $customer->update(["surname" => "abc"]);
+        return redirect()->route('customers.index');
     }
 }
