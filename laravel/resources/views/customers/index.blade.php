@@ -1,41 +1,44 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <title>Müşteri Listesi</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h3 class="mb-0">Kayıtlı Müşteriler</h3>
-            </div>
-            <div class="card-body">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Ad</th>
-                            <th>Soyad</th>
-                            <th>Doğum Yılı</th>
-                            <th>Cinsiyet</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($customers as $customer)
-                        <tr>
-                            <td>{{ $customer->id }}</td>
-                            <td>{{ $customer->name }}</td>
-                            <td>{{ $customer->surname }}</td>
-                            <td>{{ $customer->birthYear }}</td>
-                            <td>{{ $customer->gender }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+<h1>Müşteriler</h1>
+
+<a href="{{ route('customers.create') }}">Yeni Müşteri Ekle</a>
+
+@if(session()->has('status'))
+    <div>{{ session('status') }}</div>
+@endif
+
+@if($customers->isEmpty())
+    <p>Henüz müşteri yok.</p>
+@else
+    <table border="1" cellpadding="6" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Doğum Yılı</th>
+                <th>Cinsiyet</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach ($customers as $customer)
+            <tr>
+                <td>{{ $customer->id }}</td>
+                <td><a href="{{ route('customers.show', $customer) }}">{{ $customer->name ?? '-' }}</a></td>
+                <td>{{ $customer->surname ?? '-' }}</td>
+                <td>{{ $customer->birthYear ?? '-' }}</td>
+                <td>{{ $customer->gender ?? '-' }}</td>
+                <td>
+                    <a href="{{ route('customers.edit', $customer) }}">Düzenle</a>
+                    |
+                    <form action="{{ route('customers.destroy', $customer) }}" method="POST" style="display:inline" onsubmit="return confirm('Silinsin mi?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">Sil</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+@endif

@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 class CustomerController extends Controller
 {
     // 1. Müşterileri Listeleme
-    public function index()
-    {
-        $customers = Customer::all();
-        return view('customers.index', compact('customers'));
-    }
+public function index()
+{
+    // El yapımı listeyi sildik, gerçek veritabanını çağırdık
+    $customers = Customer::all(); 
+    return view('customers.index', compact('customers'));
+}
 
     // 2. SADECE FORMU GÖSTERME (Form sayfasını açar)
     public function create()
@@ -35,9 +36,35 @@ public function store(Request $request)
     return redirect()->route('customers.index');
 }
 
-    public function edit(Customer $customer)
+public function edit(Customer $customer)
+{
+    // Bize o müşterinin bilgilerinin olduğu bir sayfa aç (formu göster)
+    return view('customers.edit', compact('customer'));
+}
+    
+    // Tek bir müşteriyi göster
+    public function show(Customer $customer)
     {
-        $customer->update(["surname" => "abc"]);
+        return view('customers.show', compact('customer'));
+    }
+public function destroy(Customer $customer)
+{
+    $customer->delete(); // Seçtiğin müşteriyi siler
+    return redirect()->route('customers.index'); // Listeye geri döner
+}
+
+    // Güncelleme işlemi
+    public function update(Request $request, Customer $customer)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'birthYear' => 'required|integer|min:1900|max:'.(date('Y')),
+            'gender' => 'required|string|max:10',
+        ]);
+
+        $customer->update($data);
+
         return redirect()->route('customers.index');
     }
 }
