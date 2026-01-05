@@ -32,4 +32,28 @@ class CustomerApiController extends Controller
 
         return response()->json($customer, 201);
     }
+
+    /**
+     * Display the specified customer as JSON
+     */
+    public function show(Customer $customer)
+    {
+        //
+    }
+
+    /**
+     * Update the specified customer
+     */
+    public function update(Request $request, Customer $customer)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified customer
+     */
+    public function destroy(Customer $customer)
+    {
+        //
+    }
 }

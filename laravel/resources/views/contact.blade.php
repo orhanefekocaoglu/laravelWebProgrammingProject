@@ -1,2 +1,3 @@
 <h1>Contact</h1>
 <p>Placeholder contact page.</p>
+<h1>{{ $baslik }}</h1>

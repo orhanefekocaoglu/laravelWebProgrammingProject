@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 class PagesController extends Controller
 {
-    public function contact()
+    public function contact() 
     {
-        return view('contact');
+    $baslik = "Bize Ulaşın"; // Veriyi hazırladık
+    return view('contact', compact('baslik')); // Pakete koyup gönderdik
     }
 }
